@@ -11,14 +11,66 @@
             justify-content: center;
             display: flex;
             height: 100vh;
+            width: 100%;
+            background-color: rgb(253, 255, 152);
         }
 
         .content
         {
             background-color: rgb(8, 191, 204);
             border-radius: 5vw;
-            padding: 2%;
-            font-size: xx-large;
+            padding: 3%;
+            font-size: 2.5vw;
+            min-width: 45%;
+            text-align: center;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title
+        {
+            font-size: 300%;
+            font-weight: bold;
+            margin: 1vw;
+        }
+
+        .links
+        {
+            background-color: rgb(8, 66, 173);
+            border-radius: 1vw;
+            max-width: 40vw;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5vw;
+            margin-top: 3vw;
+        }
+
+        .color a
+        {
+            color: rgb(21, 231, 133)
+        }
+
+        p
+        {
+            margin: 0.5vw;
+        }
+
+        form {width: 100%;}
+
+        .input
+        {
+            margin-top: 2vw;
+            margin-bottom: 2vw;
+            padding: 1vw;
+            font-size: 80%;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            justify-content: left;
+            text-align: left;
+            background-color: rgb(20, 145, 37);
+            border-radius: 1.5vw;
+            max-width: 80%;
+            
         }
 
     </style>
@@ -29,9 +81,11 @@
 
         {% block content %}{% endblock%}
 
-        {% for page in pages %}
-            <a href="{{ page }}">{{ page }}</a>
-        {% endfor %}
+        <div class="links color">
+            {% for page in pages %}
+                <a href="{{ page }}">{{ page }}</a>
+            {% endfor %}
+        </div>
 
     </div>
 

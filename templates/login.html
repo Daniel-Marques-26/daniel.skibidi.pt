@@ -1,8 +1,17 @@
 {% extends "base.form.html" %}
 {% block title %}login{% endblock %}
 {% block content %}
-    <h1>Index</h1>
-    <p class="important">
-      This is a login page.
-    </p>
+    <p class="title">Login</p>
+    <p>This is a login page.</p>
+    <p>Please submit your info to get acess to the site.</p>
+    <form method="POST" action="/login">
+      <div class="input">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="Give me your name pls">
+      </div>
+      <div class="input">
+        <label for="password">Password:</label><br>
+        <input type="text" id="password" name="Give me your name pls">
+      </div>
+    </form>
 {% endblock %}
