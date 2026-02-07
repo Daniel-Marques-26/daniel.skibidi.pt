@@ -1,25 +1,40 @@
 {% extends "base.form.html" %}
+
+
 {% block title %}Index{% endblock %}
+
+
+{% block dest %}'/register'{% endblock %}
+
+
 {% block head %}
+
     {{ super() }}
     <style type="text/css">
         .important { color: #336699; }
     </style>
+
 {% endblock %}
 
 
 {% block content %}
+
     <p class="title">Register</p>
-    <p class="important pad">This is a registering page.</p>
-    <p class="important pad">Put here info to create a new account.</p>
-    <form method="POST" action="/login">
-      <div class="input">
+    <p class="important p">This is a registering page.</p>
+    <p class="important p">Put here info to create a new account.</p>
+
+{% endblock %}
+
+
+{% block input %}
+
+    <div class="input">
         <label for="name">Name:</label><br>
-        <input type="text" id="name" name="Give me your name pls">
-      </div>
-      <div class="input">
+        <input type="text" id="name" name="name">
+    </div>
+    <div class="input">
         <label for="password">Password:</label><br>
-        <input type="text" id="password" name="Give me your name pls">
-      </div>
-    </form>
+        <input type="text" id="password" name="password">
+    </div>
+
 {% endblock %}
