@@ -1,35 +1,67 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
 
 
 app = Flask(__name__)
 
+app.secret_key = "l)man2/tH6App?av1H"
 
-usuarios = []
 
-pages = ['home', 'login', 'register', 'play']
+users = []
+
+pages_logged = ['home', 'play', 'logout']
+pages_not_logged = ['home', 'login', 'register']
+pages = 0
+
+def check_loggin():
+    global pages
+    if "username" in session:
+        pages = pages_logged
+    else:
+        pages = pages_not_logged
 
 @app.route('/')
 @app.route('/home')
 def home():
+
+    check_loggin()
+
     return render_template("index.html", pages=pages)
 
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    return render_template("login.html", pages=pages)
 
-
-@app.route('/register', methods=['POST', 'GET'])
-def register():
+    check_loggin()
 
     if request.method == 'POST':
 
         username = request.form['name']
         password = request.form['password']
 
-        for u in usuarios:
+        for u in users:
 
             if u[0] == username and u[1] == password:
+                session["username"] = username
+                return render_template("play.html", pages=pages)
+
+    if request.method == 'GET':
+
+        return render_template("login.html", pages=pages)
+
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+
+    check_loggin()
+
+    if request.method == 'POST':
+
+        username = request.form['name']
+        password = request.form['password']
+
+        for u in users:
+
+            if u[0] == username:
                 msg_add = "Already existing account!"
                 return render_template("register.html", pages=pages, msg=msg_add)
 
@@ -38,7 +70,8 @@ def register():
             return render_template("register.html", pages=pages, msg=msg_add)
 
         msg_add = "Account created!"
-        usuarios.append((username, password))
+        session['username'] = username
+        users.append((username, password))
 
         return render_template("register.html", pages=pages, msg=msg_add)
 
@@ -49,6 +82,9 @@ def register():
 
 @app.route('/play')
 def play():
+
+    check_loggin()
+
     return render_template("play.html", pages=pages)
 
 

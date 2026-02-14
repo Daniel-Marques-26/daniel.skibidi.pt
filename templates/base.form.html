@@ -92,7 +92,9 @@
 
         <div class="links color">
             {% for page in pages %}
-                <a href="{{ page }}">{{ page }}</a>
+                {% if page not in request.endpoint %}
+                    <a href="{{ page }}">{{ page }}</a>
+                {% endif %}
             {% endfor %}
         </div>
 

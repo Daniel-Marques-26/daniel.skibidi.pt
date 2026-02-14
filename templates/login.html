@@ -1,10 +1,10 @@
 {% extends "base.form.html" %}
 
 
-{% block title %}Index{% endblock %}
+{% block title %}Login{% endblock %}
 
 
-{% block dest %}'/register'{% endblock %}
+{% block dest %}'/login'{% endblock %}
 
 
 {% block head %}
@@ -19,9 +19,9 @@
 
 {% block content %}
 
-    <p class="title">Register</p>
-    <p class="important p">This is a registering page.</p>
-    <p class="important p">Put here info to create a new account.</p>
+    <p class="title">Login</p>
+    <p class="important p">This is a login page.</p>
+    <p class="important p">Please submit your info to get access to the site.</p>
 
 {% endblock %}
 
@@ -37,23 +37,4 @@
         <input type="text" id="password" name="password">
     </div>
 
-{% endblock %}
-
-
-{% extends "base.form.html" %}
-{% block title %}login{% endblock %}
-{% block content %}
-    <p class="title">Login</p>
-    <p>This is a login page.</p>
-    <p>Please submit your info to get acess to the site.</p>
-    <form method="POST" action="/login">
-      <div class="input">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="Give me your name pls">
-      </div>
-      <div class="input">
-        <label for="password">Password:</label><br>
-        <input type="text" id="password" name="Give me your name pls">
-      </div>
-    </form>
 {% endblock %}
