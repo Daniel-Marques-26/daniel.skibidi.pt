@@ -3,12 +3,28 @@
 {% block head %}
     {{ super() }}
     <style type="text/css">
+
+        body {
+            background-color: rgb(100, 120, 200);
+        }
+
+        .centering {
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            min-width: 100vw;
+            background-color: red;
+        }
+
         .important { color: #336699; }
+
     </style>
 {% endblock %}
 
 {% block content %}
-    <h1>Index</h1>
+    <div class="centering">
+        <h1>Welcome to the chatroom!</h1>
+    </div>
     <p class="important">
       Welcome to my awesome homepage.
     </p>
