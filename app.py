@@ -15,9 +15,9 @@ pages_logged = ['home', 'play', 'logout']
 pages_not_logged = ['home', 'login', 'register']
 pages = 0
 
-def check_loggin():
+def check_login():
     global pages
-    if session["username"] is not None:
+    if "username" in session:
         pages = pages_logged
     else:
         pages = pages_not_logged
@@ -26,7 +26,7 @@ def check_loggin():
 @app.route('/home')
 def home():
 
-    check_loggin()
+    check_login()
 
     return render_template("index.html", pages=pages)
 
@@ -34,7 +34,7 @@ def home():
 @app.route('/login', methods=['POST', 'GET'])
 def login():
 
-    check_loggin()
+    check_login()
 
     if request.method == 'POST':
 
@@ -61,7 +61,7 @@ def login():
 @app.route('/register', methods=['POST', 'GET'])
 def register():
 
-    check_loggin()
+    check_login()
 
     if request.method == 'POST':
 
@@ -97,7 +97,7 @@ def register():
 @app.route('/play')
 def play():
 
-    check_loggin()
+    check_login()
 
     return render_template("play.html", pages=pages)
 
