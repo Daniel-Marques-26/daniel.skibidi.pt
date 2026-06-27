@@ -11,7 +11,7 @@ DB_URL = "postgresql://neondb_owner:npg_skLYJ5R9hIKe@ep-billowing-voice-abofarmr
 conn = psycopg.connect(DB_URL)
 
 
-pages_logged = ['home', 'play', 'logout']
+pages_logged = ['home', 'play', 'chat', 'logout']
 pages_not_logged = ['home', 'login', 'register']
 pages = 0
 
@@ -38,20 +38,21 @@ def login():
 
     if request.method == 'POST':
 
-        username = request.form['name']
+        email = request.form['email']
         password = request.form['password']
 
         crs = conn.cursor()
 
-        user_info = crs.execute('SELECT "Name" FROM "Users" WHERE "Name"=%s AND "Password"=%s', (username, password)).fetchone()
+        user_info = crs.execute('SELECT "Email" FROM "Users" WHERE "Email"=%s AND "Password"=%s', (email, password)).fetchone()
 
         if user_info == None:
             msg_add = "That account doesn't exist."
             return render_template("login.html", pages=pages, msg=msg_add)
 
         else:
-            session["username"] = username
-            return render_template("play.html", pages=pages)
+            print(crs.execute('SELECT "Name" FROM "Users" WHERE "Email"=%s', (email,)).fetchone())
+            session["username"] = crs.execute('SELECT "Name" FROM "Users" WHERE "Email"=%s', (email,)).fetchone()[0]
+            return redirect(url_for("home"))
 
     if request.method == 'GET':
 
@@ -67,22 +68,23 @@ def register():
 
         username = request.form['name']
         password = request.form['password']
+        password2 = request.form['password2']
         email = request.form['email']
 
         crs = conn.cursor()
 
         user = crs.execute('SELECT "Name" FROM "Users" WHERE "Name"=%s', (username,)).fetchone()
 
-        if user is None:
+        if user is None and password == password2:
+            if username == "" or password == "" or email == "":
+                crs.close()
+                msg_add = "Are you serious?"
+                return render_template("register.html", pages=pages, msg=msg_add)
             crs.execute('INSERT INTO "Users" ("Name", "Password", "Email") VALUES (%s, %s, %s)', (username, password, email))
+            conn.commit()
             crs.close()
             msg_add = "Account created!"
             session['username'] = username
-            return render_template("register.html", pages=pages, msg=msg_add)
-
-        elif username == "" or password == "":
-            crs.close()
-            msg_add = "Are you serious?"
             return render_template("register.html", pages=pages, msg=msg_add)
 
         crs.close()
@@ -99,14 +101,19 @@ def play():
 
     check_login()
 
-    return render_template("play.html", pages=pages)
+    return render_template("game.html", pages=pages)
+
+
+@app.route('/chat')
+def chat():
+
+    return render_template("chat.html", pages=pages, username=session["username"])
 
 
 @app.route('/logout')
 def logout():
-    session["username"] = None
-    global pages
-    return redirect(url_for('home'))
+    session.pop("username", None)
+    return redirect(url_for("home"))
 
 
 app.run(debug=True, host='0.0.0.0')
